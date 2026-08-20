@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="centered container">
+        <form id="task-form" action="{{ url_for('index') }}" method="post">
+            <input type="text" name="task" placeholder="Enter a new task" maxlength="100">
+            <button type="submit" class="scale">Add Task</button>
+        </form>
+    
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'finished' if task.finished else '' }}">
+                    <span class="task-text">{{ task.text }}</span>
+                    <form class="task-actions" action="{{ url_for('handle_task', task_index=loop.index0) }}" method="post">
+                        <input type="hidden" name="action" value="toggle">
+                        <input class="task-checkbox" type="checkbox" aria-label="{{ 'Mark as unfinished' if task.finished else 'Mark as finished' }}" {% if task.finished %}checked{% endif %} onchange="this.form.submit()">
+                        <input class="icon" type="image" name="action" value="delete" src="{{ url_for('static', filename='svg-trash.svg') }}" alt="Delete">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

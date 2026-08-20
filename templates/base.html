@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo | {% block title %}{% endblock %}</title>
+</head>
+
+<nav>
+    <div class="centered navigation">
+        <h1>Todo App</h1>
+        <button class="nav-link scale" href="{{ url_for('index') }}">Home</button>
+    </div>
+</nav>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
