@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
-
 {% block content %}
     <div class="centered container">
         <form id="task-form" action="{{ url_for('index') }}" method="post">
             <input type="text" name="task" placeholder="Enter a new task" maxlength="100">
-            <button type="submit" class="scale">Add Task</button>
+            <button type="submit">Add Task</button>
         </form>
     
         <ul>
             {% for task in tasks %}
                 <li class="{{ 'finished' if task.finished else '' }}">
-                    <span class="task-text">{{ task.text }}</span>
-                    <form class="task-actions" action="{{ url_for('handle_task', task_index=loop.index0) }}" method="post">
-                        <input type="hidden" name="action" value="toggle">
-                        <input class="task-checkbox" type="checkbox" aria-label="{{ 'Mark as unfinished' if task.finished else 'Mark as finished' }}" {% if task.finished %}checked{% endif %} onchange="this.form.submit()">
-                        <input class="icon" type="image" name="action" value="delete" src="{{ url_for('static', filename='svg-trash.svg') }}" alt="Delete">
+                    <span>{{ task.description }}</span>
+                    <form class="row" action="{{ url_for('manage_task') }}" method="post">
+                        <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+                        <button class="btn-stretch" type="submit" name="action" value="{{ 'undone' if task.finished else 'done' }}">{{ 'Mark as undone' if task.finished else 'Mark as done' }}</button>
+                        <button class="btn-stretch delete-btn" type="submit" name="action" value="delete">Delete task</button>
                     </form>
                 </li>
             {% endfor %}

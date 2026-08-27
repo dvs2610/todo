@@ -8,19 +8,24 @@ def index():
 	if request.method == 'POST':
 		task = request.form.get('task', '').strip()
 		if task:
-			tasks.append({'text': task, 'finished': False})
+			tasks.append({'description': task, 'finished': False})
 		return redirect(url_for('index'))
 
 	return render_template('index.html', tasks=tasks)
 
-@app.post('/task/<int:task_index>/handle')
-def handle_task(task_index):
-	if 0 <= task_index < len(tasks):
-		action = request.form.get('action')
-		if action == 'delete':
+@app.route('/task', methods=['POST'])
+def manage_task():
+	task_index = request.form.get('task_index', type=int)
+	action = request.form.get('action')
+
+	if task_index is not None and 0 <= task_index < len(tasks):
+		if action == 'done':
+			tasks[task_index]['finished'] = True
+		elif action == 'undone':
+			tasks[task_index]['finished'] = False
+		elif action == 'delete':
 			tasks.pop(task_index)
-		elif action == 'toggle':
-			tasks[task_index]['finished'] = not tasks[task_index]['finished']
+
 	return redirect(url_for('index'))
 
 if __name__ == '__main__':
