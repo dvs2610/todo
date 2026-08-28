@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 tasks = []
+display_finished_tasks = True
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -11,7 +12,7 @@ def index():
 			tasks.append({'description': task, 'finished': False})
 		return redirect(url_for('index'))
 
-	return render_template('index.html', tasks=tasks)
+	return render_template('index.html', tasks=tasks, display_finished_tasks=display_finished_tasks)
 
 @app.route('/task', methods=['POST'])
 def manage_task():
@@ -26,6 +27,12 @@ def manage_task():
 		elif action == 'delete':
 			tasks.pop(task_index)
 
+	return redirect(url_for('index'))
+
+@app.route('/toggle-finished')
+def toggle_finished():
+	global display_finished_tasks
+	display_finished_tasks = not display_finished_tasks
 	return redirect(url_for('index'))
 
 if __name__ == '__main__':

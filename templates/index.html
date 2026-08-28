@@ -6,17 +6,27 @@
             <input type="text" name="task" placeholder="Enter a new task" maxlength="100">
             <button type="submit">Add Task</button>
         </form>
+
+        <div class="toggle-finished">
+            <form action="{{ url_for('toggle_finished') }}" method="get">
+                <button class="toggle-button" type="submit">
+                    {{ 'Hide finished tasks' if display_finished_tasks else 'Show finished tasks' }}
+                </button>
+            </form>
+        </div>
     
         <ul>
             {% for task in tasks %}
-                <li class="{{ 'finished' if task.finished else '' }}">
-                    <span>{{ task.description }}</span>
-                    <form class="row" action="{{ url_for('manage_task') }}" method="post">
-                        <input type="hidden" name="task_index" value="{{ loop.index0 }}">
-                        <button class="btn-stretch" type="submit" name="action" value="{{ 'undone' if task.finished else 'done' }}">{{ 'Mark as undone' if task.finished else 'Mark as done' }}</button>
-                        <button class="btn-stretch delete-btn" type="submit" name="action" value="delete">Delete task</button>
-                    </form>
-                </li>
+                {% if display_finished_tasks or not task.finished %}
+                    <li class="{{ 'finished' if task.finished else '' }}">
+                        <span>{{ task.description }}</span>
+                        <form class="row" action="{{ url_for('manage_task') }}" method="post">
+                            <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+                            <button class="btn-stretch" type="submit" name="action" value="{{ 'undone' if task.finished else 'done' }}">{{ 'Mark as undone' if task.finished else 'Mark as done' }}</button>
+                            <button class="btn-stretch delete-btn" type="submit" name="action" value="delete">Delete task</button>
+                        </form>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
