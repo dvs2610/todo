@@ -52,21 +52,35 @@ nav {
     height: var(--nav-height);
 }
 
-.nav-link {
-    height: 100%;
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: var(--box-shadow-small);
-}
-
 #task-form {
     display: flex;
     gap: 1rem;
-    margin-bottom:3rem;
+    margin-bottom: 2rem;
+}
+
+.toggle-finished {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.toggle-button {
+    width: auto;
+    max-width: none;
+    min-height: 2.25rem;
+    white-space: nowrap;
+    padding: 0.5rem 0.9rem;
+    background-color: transparent;
+    color: #555;
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+
+.toggle-button:hover {
+    background-color: #f2f2f2;
+    border-color: #888;
 }
 
 input[type="text"] {
